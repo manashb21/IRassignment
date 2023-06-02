@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search App</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body
+        {
+            background-image: url("/background.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .search-container .input-group {
+            width: 800px; /* Increased width to 400px */
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5 d-flex justify-content-center">
+        <h2>Coventry Search</h2>
+    </div>
+    <div class = "container mt-4 d-flex justify-content-center search-container" >
+        <form action="/search" method="post" class="form-inline">
+            <div class="input-group">
+                <input type="text" class="form-control" name="query" placeholder="Enter your search query" required>
+                <div class="input-group-append d-block">
+                    <button id = 'searchbtn' class="btn btn-primary" type="submit">Search</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="container mt-5">
+        <p><strong> You searched for : </strong><i>{{query}}</i></p>
+        <ul class="list-group">
+            {% for item in final_list %}
+            <li class="list-group-item">
+                <h4>{{ item['Title'] }}</h4>
+                <p><strong>Author:</strong> {{ item['Author'] }}</p>
+                <p><strong>Similarity:</strong> {{ item['Similarity'] }}</p>
+                <p><strong>Document Link:</strong> <a href="{{ item['Document Link'] }}">{{ item['Document Link'] }}</a></p>
+                <p><strong>Abstract:</strong> {{ item['Abstract'] }}</p>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
