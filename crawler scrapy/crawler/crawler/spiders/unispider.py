@@ -1,9 +1,7 @@
 import scrapy
-
 from scrapy.crawler import CrawlerProcess
 from apscheduler.schedulers.twisted import TwistedScheduler
 from datetime import datetime, timedelta
-
 
 class UnispiderSpider(scrapy.Spider):
     name = "unispider"
@@ -29,7 +27,8 @@ class UnispiderSpider(scrapy.Spider):
         for publication in publications:
             doc_link = publication.css("a ::attr('href')").get()
 
-            yield response.follow(doc_link, callback=self.get_abstract, meta={'publication': publication, 'rp' : response})
+            yield response.follow(doc_link, callback=self.get_abstract,
+                                  meta={'publication': publication, 'rp' : response})
 
     def get_abstract(self, response):
         doc_abstract = response.xpath('//*[@id="main-content"]/section[1]/div/div/div[1]/div[1]/div/text()').get()
@@ -51,7 +50,9 @@ scheduler = TwistedScheduler()
 
 # Schedule the spider to run every 14 days
 scheduler.add_job(
-    lambda: CrawlerProcess({'USER_AGENT': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36'}).crawl(UnispiderSpider),
+    lambda: CrawlerProcess({'USER_AGENT': 
+                            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36'})
+            .crawl(UnispiderSpider),
     'interval',
     days=14,
     start_date=datetime.now() + timedelta(days=1)  # Start the first run tomorrow

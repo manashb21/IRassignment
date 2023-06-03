@@ -85,9 +85,10 @@ def exec_logic(gui_query):
     similarities_percentage = []
     most_similar_doc = []
 
-    for index in similar_index_list[0:10]:
-        similarities.append(cosine_similarities[0][index]) 
-        most_similar_doc.append(documents[index])
+    for index in similar_index_list:
+        if cosine_similarities[0][index] > 0:
+            similarities.append(cosine_similarities[0][index]) 
+            most_similar_doc.append(documents[index])
     
     for s in similarities:
         similarities_percentage.append(((s + 1) / 2 * 100))
@@ -98,13 +99,7 @@ def exec_logic(gui_query):
 
     for i in range(0, len(most_similar_doc)):
         result = df_final.loc[similar_index_list[i]]
-    #     print(f"Similarity: {similarities[i]},\nAuthor: {result['name']},\nDocument Link: {result['doc_link']}")
-    #     print()
-    #     print(f"{result['doc_title']}")
-    #     print()
-    #     print(f"{result['doc_abstract']}")
-    #     print("~"*100)
-
+   
         final_result.append({"Similarity": similarities[i],
                         "Author": result['name'],
                         "Document Link": result['doc_link'],
